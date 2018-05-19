@@ -1,15 +1,13 @@
 var cookieSession = require("cookie-session");
 var express = require("express");
-// var cookieParser = require('cookie-parser');
 let app = express();
-var PORT = process.env.PORT || 8080; // default port 8080
-// app.use(cookieParser());
+var PORT = process.env.PORT || 8080;
+let bcrypt = require("bcrypt");
+
 app.use(cookieSession({
   name: 'user_id',
   secret: "mylittlesecret"
 }));
-
-let bcrypt = require("bcrypt");
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({
@@ -43,7 +41,7 @@ const userDatabase = {
 
 app.set("view engine", "ejs")
 
-let urlDatabase = {
+const urlDatabase = {
   "111111": {
     "b2xVn2": "http://www.lighthouselabs.ca",
     "9sm5xK": "http://www.google.com"
@@ -54,7 +52,6 @@ let urlDatabase = {
   }
 };
 
-// verifed May 19 14:00
 app.get("/", (req, res) => {
   if (!req.session.user_id) {
     res.redirect("/login");
@@ -63,7 +60,6 @@ app.get("/", (req, res) => {
   }
 });
 
-// verified May 19 16:09
 app.get("/login", (req, res) => {
   if (!req.session.user_id) {
     res.render("urls_login");
@@ -73,19 +69,18 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  let templateVars = {
+  const templateVars = {
     username: userDatabase[req.session.user_id],
     urlDatabase: urlDatabase[req.session.user_id]
   };
   res.render("urls_index", templateVars);
 });
 
-// verifed May 19 14:10
 app.get("/urls/new", (req, res) => {
   if (!req.session.user_id) {
     res.redirect("/login");
   } else {
-    let templateVars = {
+    const templateVars = {
       username: userDatabase[req.session.user_id],
       urlDatabase: urlDatabase[req.session.user_id]
     };
@@ -100,7 +95,7 @@ app.put("/urls/:shortURL", (req, res) => {
 
 app.get("/urls/:shortURL", function(req, res) {
   if (req.session.user_id) {
-    let templateVars = {
+    const templateVars = {
       shortURL: req.params.shortURL,
       longURL: urlDatabase[req.session.user_id][req.params.shortURL],
       username: userDatabase[req.session.user_id]
@@ -112,7 +107,6 @@ app.get("/urls/:shortURL", function(req, res) {
   }
 });
 
-// verifed May 19 14:20
 app.get("/u/:shortURL", (req, res) => {
   if (!req.session.user_id) {
     res.redirect("/login");
@@ -134,7 +128,6 @@ app.get("/u/:shortURL", (req, res) => {
   }
 });
 
-// verified May 19 16:10
 app.get("/register", (req, res) => {
   if (!req.session.user_id) {
     res.render("urls_register");
@@ -143,11 +136,10 @@ app.get("/register", (req, res) => {
   }
 });
 
-//verified May 19 16:00
 app.post("/urls", (req, res) => {
   if (req.session.user_id) {
     const userId = req.session.user_id;
-    let shortURL = generateRandomString();
+    const shortURL = generateRandomString();
     let longURL = `http://${req.body.longURL}`;
 
     if (urlDatabase[req.session.user_id]) {
@@ -165,7 +157,6 @@ app.post("/urls", (req, res) => {
   }
 });
 
-//verified May 19 16:07
 app.delete("/urls/:shortURL/delete", (req, res) => {
   if (req.session.user_id) {
     for (let urlId in urlDatabase[req.session.user_id]) {
@@ -187,7 +178,6 @@ app.delete("/urls/:shortURL/delete", (req, res) => {
   }
 });
 
-// verified May 19 16:13
 app.post("/login", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
@@ -208,13 +198,11 @@ app.post("/login", (req, res) => {
   }
 });
 
-// verified Max 19 18:20
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/urls");
 });
 
-// verified May 19 18:10
 app.post("/register", (req, res) => {
 
   if (!req.body.email || !req.body.password) {
@@ -249,9 +237,9 @@ function generateRandomString() {
 
 function randomString(len, charSet) {
   charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var randomString = '';
-  for (var i = 0; i < len + 1; i++) {
-    var randomPoz = Math.floor(Math.random() * charSet.length);
+  let randomString = '';
+  for (let i = 0; i < len + 1; i++) {
+    let randomPoz = Math.floor(Math.random() * charSet.length);
     randomString += charSet.substring(randomPoz, randomPoz + 1);
   }
   return randomString;
