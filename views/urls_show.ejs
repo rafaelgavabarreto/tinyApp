@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+  <% include ./partials/_header%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>TinyApp</title>
+</head>
+  <body style="background-color:powderblue">
+    <div class="container">
+      <div class="panel panel-default" style="background-color:powderblue">
+        <h3 style="text-align:center;">ShortURL: <b><%= shortURL %></b></h3>
+        <form style="text-align:center;" method="POST" action="/urls/<%=shortURL%>/?_method=PUT">
+          <p><b>Current web site:</b> <%= longURL %></p>
+          <input type="text" name="longURL" value="<%= longURL %>" id="adr"/>
+          <input type="submit" value="Update">
+        </form>
+        <br/>
+        <div style="text-align:center;">
+        <p><a href="/urls" >Back to List</a></p>
+        </div>
+      </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include ../partials/head %>
+</head>
+<body class="container">
+
+<header>
+    <% include ../partials/header %>
+</header>
+
+<main>
+    <div class="jumbotron">
+        <h1>This is great</h1>
+        <p>Welcome to templating using EJS</p>
+    </div>
+    <div class="container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Brewery</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% drinks.forEach( function (drinks) { %>
+          <tr>
+            <td><%- drinks.name %></td>
+            <td><%= drinks.drunkness %></td>
+          </tr>
+          <% }) %>
+<!--           <ul>
+    <% drinks.forEach(function(drink) { %>
+        <li><%= drink.name %> - <%= drink.drunkness %></li>
+    <% }); %>
+</ul> -->
+        </tbody>
+      </table>
+    </div>
+</main>
+
+<footer>
+    <% include ../partials/footer %>
+</footer>
+
+</body>
+</html>

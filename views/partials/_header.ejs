@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <title>TinyApp</title>
+</head>
+
+<body>
+      <div class="container">
+      <table class="table">
+        <thead>
+  <% if (!username) { %>
+  <tr>
+    <td><a href="/login">Login</a></td>
+    <br/>
+    <td><a href="/register">Create a new user!</a></td>
+    <br/>
+    <br/>
+  <%} if (username) { %>
+     <td><form method="POST" action="/logout"></td>
+     <h6><%= username.email%></h6>
+     <input type="submit" value="Logout">
+   </form>
+<% } %>
+</thead>
+</table>
+</div>
+</body>
+</html>

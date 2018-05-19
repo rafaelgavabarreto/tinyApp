@@ -1,0 +1,24 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./partials/_header%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>TinyApp</title>
+</head>
+  <body style="background-color:powderblue">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <div class="container">
+      <div class="panel panel-default" >
+      <h3 style="text-align:center">Tinier URL</h3>
+        <form action="/urls/" method="POST" style="text-align:center;" >
+        <label for="longURL">URL:</label>
+        <input id="longURL" type="text" name="longURL">
+        <input type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

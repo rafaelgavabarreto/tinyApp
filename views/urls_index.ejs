@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include ./partials/_header%>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>TinyApp</title>
+</head>
+<body style="background-color:powderblue">
+  <div class="container">
+    <div class="panel panel-default">
+      <h1 class="" style="text-align:center">Your Short URLS</h1>
+      <div class="mydiv">
+        <% if (!username) {%>
+            <br/>
+          <h3 style="text-align:center;">Please login or Register if you want use the web site</h3>
+          <%}%>
+          <% if (username) {%>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>WebSite</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% for (var shortURL in urlDatabase) { %>
+        <tr>
+          <form method="POST" action="/urls/<%- shortURL %>?_method=delete">
+            <td><%= shortURL %></td>
+            <td><a href="/u/<%= shortURL %>"><%= urlDatabase[shortURL] %></td>
+            <td><a href="/urls/<%= shortURL %>">Edit</a></td>
+            <td><input type="submit" value="Delete"/></td>
+          </form>
+        </tr>
+        <% } %>
+      </table>
+      </div>
+      <div>
+      <a href="urls/new">Create a new link</a>
+      </div>
+    </tbody>
+    <%}%>
+    </div>
+  </div>
+</body>
+</html>
+
