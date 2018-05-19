@@ -1,6 +1,18 @@
 # tinyApp
 
+Node.js
+Express
+EJS
+bcrypt
+body-parser
+cookie-session
+
 Project Description
+
+Install all dependencies (using the npm install command in your computer).
+To access the Tiny App you need run the web server using the node express_server.js command.
+
+
 Goal
 
 This four-day project will have you building a web app using Node. The app will allow users to shorten long URLs much like TinyURL.com and bit.ly do.
@@ -21,7 +33,8 @@ so that I can read interesting content.
 I want to be able to see how many times my subscribers visit my links
 so that I can learn what content they like.
 
-Display Requirements
+Display Requirements - ok
+
 Site Header:
 if a user is logged in, the header shows:
 the user's email
@@ -29,14 +42,21 @@ a logout button which makes a POST request to /logout
 if a user is not logged in, the header shows:
 a link to the login page (/login)
 a link to the registration page (/register)
+
+
+
 Behaviour Requirements
-GET /
+
+
+GET / - ok
 
 if user is logged in:
 (Minor) redirect to /urls
 if user is not logged in:
 (Minor) redirect to /login
-GET /urls
+
+
+GET /urls - ok
 
 if user is logged in:
 returns HTML with:
@@ -52,7 +72,9 @@ a delete button which makes a POST request to /urls/:id/delete
 (Minor) a link to "Create a New Short Link" which makes a GET request to /urls/new
 if user is not logged in:
 returns HTML with a relevant error message
-GET /urls/new
+
+
+GET /urls/new - ok
 
 if user is logged in:
 returns HTML with:
@@ -62,7 +84,9 @@ a text input field for the original (long) URL
 a submit button which makes a POST request to /urls
 if user is not logged in:
 redirects to the /login page
-GET /urls/:id
+
+
+GET /urls/:id - ok
 
 if user is logged in and owns the URL for the given ID:
 returns HTML with:
@@ -80,20 +104,26 @@ if user is not logged in:
 returns HTML with a relevant error message
 if user is logged it but does not own the URL with the given ID:
 returns HTML with a relevant error message
-GET /u/:id
+
+
+GET /u/:id - ok (add a redirect to login if dont find the user session) - if the user is not login the message will always be error. So this will be a wrong answers from the system to user.
 
 if URL for the given ID exists:
 redirects to the corresponding long URL
 if URL for the given ID does not exist:
 (Minor) returns HTML with a relevant error message
-POST /urls
+
+
+POST /urls - ok
 
 if user is logged in:
 generates a short URL, saves it, and associates it with the user
 redirects to /urls/:id, where :id matches the ID of the newly saved URL
 if user is not logged in:
 (Minor) returns HTML with a relevant error message
-POST /urls/:id
+
+
+POST /urls/:id - ok (after strech this POST is /urls/:id/delete)
 
 if user is logged in and owns the URL for the given ID:
 updates the URL
@@ -102,15 +132,18 @@ if user is not logged in:
 (Minor) returns HTML with a relevant error message
 if user is logged it but does not own the URL for the given ID:
 (Minor) returns HTML with a relevant error message
+
 POST /urls/:id/delete
 if user is logged in and owns the URL for the given ID:
 deletes the URL
 redirects to /urls
-if user is not logged in:
+if user i<!-- s not logged in:
 (Minor) returns HTML with a relevant error message
-if user is logged it but does not own the URL for the given ID:
+if user is logged it but does not own the URL for the given ID: -->
 (Minor) returns HTML with a relevant error message
-GET /login
+
+
+GET /login - ok
 
 if user is logged in:
 (Minor) redirects to /urls
@@ -119,7 +152,9 @@ returns HTML with:
 a form which contains:
 input fields for email and password
 submit button that makes a POST request to /login
-GET /register
+
+
+GET /register - ok
 
 if user is logged in:
 (Minor) redirects to /urls
@@ -128,14 +163,18 @@ returns HTML with:
 a form which contains:
 input fields for email and password
 a register button that makes a POST request to /register
-POST /login
+
+
+POST /login - ok
 
 if email and password params match an existing user:
 sets a cookie
 redirects to /urls
 if email and password params don't match an existing user:
 returns HTML with a relevant error message
-POST /register
+
+
+POST /register - ok
 
 if email or password are empty:
 returns HTML with a relevant error message
@@ -146,7 +185,9 @@ creates a new user
 encrypts the new user's password with bcrypt
 sets a cookie
 redirects to /urls
-POST /logout
+
+
+POST /logout - ok
 
 deletes cookie
 redirects to /urls

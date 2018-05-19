@@ -22,6 +22,12 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+function systemMessages(text) {
+  let userMessage = '';
+  userMessage = '<body style="background-color:powderblue;text-align:center;font-size:50px"><br/><br/>' + text + '</body> <script>onload = function(){ setTimeout(function(){history.back();}, 3000);}</script>'
+  return userMessage;
+}
+
 const userDatabase = {
   "userRandomID": {
     id: "userRandomID",
@@ -48,16 +54,22 @@ let urlDatabase = {
   }
 };
 
+// verifed May 19 14:00
 app.get("/", (req, res) => {
-  // if (!req.session.user_id) {
-  //   res.redirect("/login");
-  // } else {
-  res.redirect("/urls");
-  // }
+  if (!req.session.user_id) {
+    res.redirect("/login");
+  } else {
+    res.redirect("/urls");
+  }
 });
 
+// verified May 19 16:09
 app.get("/login", (req, res) => {
-  res.render("urls_login");
+  if (!req.session.user_id) {
+    res.render("urls_login");
+  } else {
+    res.redirect("/urls");
+  }
 });
 
 app.get("/urls", (req, res) => {
@@ -68,6 +80,7 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
+// verifed May 19 14:10
 app.get("/urls/new", (req, res) => {
   if (!req.session.user_id) {
     res.redirect("/login");
@@ -86,9 +99,7 @@ app.put("/urls/:shortURL", (req, res) => {
 });
 
 app.get("/urls/:shortURL", function(req, res) {
-
   if (req.session.user_id) {
-
     let templateVars = {
       shortURL: req.params.shortURL,
       longURL: urlDatabase[req.session.user_id][req.params.shortURL],
@@ -97,10 +108,11 @@ app.get("/urls/:shortURL", function(req, res) {
     res.render("urls_show", templateVars);
     return;
   } else {
-    res.status(400).send("You cant do it if you are not logged in.");
+    res.status(400).send(systemMessages('You cant do it if you are not logged in.'));
   }
 });
 
+// verifed May 19 14:20
 app.get("/u/:shortURL", (req, res) => {
   if (!req.session.user_id) {
     res.redirect("/login");
@@ -113,23 +125,26 @@ app.get("/u/:shortURL", (req, res) => {
           longURL = urlDatabase[userId][shortUrl];
       }
     }
-
     if (longURL) {
       res.redirect(longURL);
       return;
     } else {
-      res.status(400).send("This Short url does not exist");
+      res.status(400).send(systemMessages('This Short url does not exist'));
     }
   }
 });
 
+// verified May 19 16:10
 app.get("/register", (req, res) => {
-  res.render("urls_register");
+  if (!req.session.user_id) {
+    res.render("urls_register");
+  } else {
+    res.redirect("/urls");
+  }
 });
 
-
+//verified May 19 16:00
 app.post("/urls", (req, res) => {
-
   if (req.session.user_id) {
     const userId = req.session.user_id;
     let shortURL = generateRandomString();
@@ -145,39 +160,43 @@ app.post("/urls", (req, res) => {
 
     res.redirect("/urls");
     return;
-
   } else {
-    res.status(400).send("You cant post if you arent logged in");
+    res.status(400).send(systemMessages('You cant post if you arent logged in'));
   }
 });
 
-app.delete("/urls/:shortURL", (req, res) => {
+//verified May 19 16:07
+app.delete("/urls/:shortURL/delete", (req, res) => {
   if (req.session.user_id) {
     for (let urlId in urlDatabase[req.session.user_id]) {
+
       if (urlId === req.params.shortURL) {
         if (req.params.shortURL) {
           delete urlDatabase[req.session.user_id][req.params.shortURL];
           res.redirect("/urls");
+          return;
         } else {
-          res.status(400).send("I didnt find URL to delete.<script>setTimeout(function(){window.location = '/url'</script>}, 3000)");
+          res.status(400).send(systemMessages('I didnt find URL to delete.'));
+          return;
         }
-      } else {
-        res.status(400).send("You are not be able to delete if you are not logged in.<script>setTimeout(function(){window.location = '/url'</script>}, 3000)");
       }
     }
+  } else {
+    res.status(400).send(systemMessages('You are not be able to delete if you are not logged in.'));
+    return;
   }
 });
 
+// verified May 19 16:13
 app.post("/login", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
 
   if (!userEmail || userEmail === '' && !userPassword || userPassword === '') {
-    res.status(400).send("Fields cannot be Empty.<script>setTimeout(function(){window.location = '/url'</script>}, 3000)");
+    res.status(400).send(systemMessages('Fields cannot be Empty.'));
   } else {
     for (userId in userDatabase) {
       if (userDatabase[userId].email === userEmail) {
-        // if (userDatabase[userId].password === userPassword) {
         if (bcrypt.compareSync(userPassword, userDatabase[userId].password)) {
           req.session.user_id = userId;
           res.redirect("/urls");
@@ -185,41 +204,40 @@ app.post("/login", (req, res) => {
         }
       }
     }
-    res.status(400).send("Login or password is not correct.<script>setTimeout(function(){window.location = '/url'</script>}, 3000)");
+    res.status(400).send(systemMessages('Login or password is not correct.'));
   }
 });
 
+// verified Max 19 18:20
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/urls");
 });
 
+// verified May 19 18:10
 app.post("/register", (req, res) => {
-  const userEmail = req.body.email;
-  const userPassword = bcrypt.hashSync(req.body.password, 15);
-  const newUserId = randomString(6);
-  let userExist = false;
 
-  if (!userEmail || userEmail === "" && !userPassword || userPassword == "") {
-    res.status(400).send("Blank is not a user.<script>setTimeout(function(){window.location = '/url'</script>}, 3000)");
+  if (!req.body.email || !req.body.password) {
+    res.status(400).send(systemMessages('Blank cannot be used for user or password.'));
   } else {
+
+    const newUserId = randomString(6);
+    let userExist = false;
+
     for (let userId in userDatabase) {
-      if (userDatabase[userId].email === userEmail) {
-        res.status(400).send("User exist.<script>setTimeout(function(){window.location = '/url'</script>}, 3000)");
+      if (userDatabase[userId].email === req.body.email) {
         userExist = true;
       }
     }
     if (userExist) {
-      res.status(400).send("User exist.<script>setTimeout(function(){window.location = '/url'</script>}, 3000)");
+      res.status(400).send(systemMessages('User exist. Choose another one.'));
     } else {
       userDatabase[newUserId] = {
         id: newUserId,
-        email: userEmail,
-        password: userPassword
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password, 15)
       };
-
       req.session.user_id = newUserId;
-
       res.redirect("/urls");
     }
   }

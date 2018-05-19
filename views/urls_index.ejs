@@ -25,7 +25,7 @@
         <tbody>
         <% for (var shortURL in urlDatabase) { %>
         <tr>
-          <form method="POST" action="/urls/<%- shortURL %>?_method=delete">
+          <form method="POST" action="/urls/<%- shortURL %>/delete?_method=delete">
             <td><%= shortURL %></td>
             <td><a href="/u/<%= shortURL %>"><%= urlDatabase[shortURL] %></td>
             <td><a href="/urls/<%= shortURL %>">Edit</a></td>
