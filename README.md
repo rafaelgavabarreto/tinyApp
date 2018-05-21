@@ -1,5 +1,9 @@
 # tinyApp
 
+Project Description
+
+Install all dependencies (using the npm install command in your computer).
+
 Node.js
 Express
 EJS
@@ -7,9 +11,7 @@ bcrypt
 body-parser
 cookie-session
 
-Project Description
 
-Install all dependencies (using the npm install command in your computer).
 To access the Tiny App you need run the web server using the node express_server.js command.
 
 
