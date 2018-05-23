@@ -144,13 +144,14 @@ app.get("/register", (req, res) => {
   }
 });
 
+// Get information from base web page for the system.
 app.post("/urls", (req, res) => {
-  if (req.session.user_id) {
-    const userId = req.session.user_id;
-    const shortURL = generateRandomString();
-    let longURL = `http://${req.body.longURL}`;
+  if (req.session.user_id) { // test if the user is login or not.
+    const userId = req.session.user_id; // information for each head of system
+    const shortURL = generateRandomString(); // generate a random shortURL to the new logn URL input from user
+    let longURL = `http://${req.body.longURL}`; // get the long url typed from user input and add http://
 
-    if (urlDatabase[req.session.user_id]) {
+    if (urlDatabase[req.session.user_id]) { // testing if the url
       urlDatabase[req.session.user_id][shortURL] = longURL;
     } else {
       urlDatabase[req.session.user_id] = {
@@ -158,7 +159,7 @@ app.post("/urls", (req, res) => {
       };
     }
     return res.redirect("/urls");
-  } else {
+  } else { // If user is not login show the message below.
     res.status(400).send(systemMessages('You cant post if you arent logged in'));
   }
 });
