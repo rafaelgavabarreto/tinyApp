@@ -96,12 +96,13 @@ app.get("/urls/new", (req, res) => {
   }
 });
 
-
+// This is to edit the long URL. this method write into the database the information and reirect the user to /urls
 app.put("/urls/:shortURL", (req, res) => {
   urlDatabase[req.session.user_id][req.params.shortURL] = req.body.longURL;
   res.redirect("/urls");
 });
 
+// Send the information to edit web page like email(username) shortURL and longURL.
 app.get("/urls/:shortURL", function(req, res) {
   if (req.session.user_id) {
     const templateVars = {
