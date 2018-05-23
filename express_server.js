@@ -20,6 +20,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+
+// A function to format a message with html and 3 seconds to user
 function systemMessages(text) {
   let userMessage = '';
   userMessage = '<body style="background-color:powderblue;text-align:center;font-size:50px"><br/><br/>' + text + '</body> <script>onload = function(){ setTimeout(function(){history.back();}, 3000);}</script>'
