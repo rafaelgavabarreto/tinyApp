@@ -135,6 +135,7 @@ app.get("/u/:shortURL", (req, res) => {
   }
 });
 
+// Base web page to register a new user. If the user is login send the user to /urls.
 app.get("/register", (req, res) => {
   if (!req.session.user_id) {
     res.render("urls_register");
