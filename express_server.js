@@ -118,7 +118,7 @@ app.get("/urls/:shortURL", function(req, res) {
 
 
 app.get("/u/:shortURL", (req, res) => {
-  if (!req.session.user_id) {
+  if (!req.session.user_id) { // Test if user is login or not
     return res.redirect("/login");
   } else {
     let longURL;
