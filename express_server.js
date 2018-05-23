@@ -169,10 +169,8 @@ app.delete("/urls/:shortURL/delete", (req, res) => {
       if (urlId === req.params.shortURL) {
         if (req.params.shortURL) {
           delete urlDatabase[req.session.user_id][req.params.shortURL];
-
           return res.redirect("/urls");
         } else {
-
           return res.status(400).send(systemMessages('I didnt find URL to delete.'));
         }
       }
