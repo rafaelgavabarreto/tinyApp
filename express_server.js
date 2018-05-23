@@ -119,8 +119,7 @@ app.get("/urls/:shortURL", function(req, res) {
 
 app.get("/u/:shortURL", (req, res) => {
   if (!req.session.user_id) {
-    res.redirect("/login");
-    return;
+    return res.redirect("/login");
   } else {
     let longURL;
     for (let userId in urlDatabase) {
