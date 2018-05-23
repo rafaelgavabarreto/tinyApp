@@ -130,7 +130,7 @@ app.get("/u/:shortURL", (req, res) => {
     }
     if (longURL) {
       return res.redirect(longURL);
-    } else {
+    } else { // Send a message to user if the URL doesnt exist
       res.status(400).send(systemMessages('This Short url does not exist'));
     }
   }
