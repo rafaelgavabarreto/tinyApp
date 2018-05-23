@@ -123,16 +123,16 @@ app.get("/urls/:shortURL", function(req, res) {
   }
 });
 
-
+// This Get send a long url to the user based in shorturl send by the user
 app.get("/u/:shortURL", (req, res) => {
   if (!req.session.user_id) { // Test if user is login or not
     return res.redirect("/login");
   } else {
     let longURL;
-    for (let userId in urlDatabase) {
-      for (let shortUrl in urlDatabase[userId]) {
-        if (shortUrl === req.params.shortURL) {
-          longURL = urlDatabase[userId][shortUrl];
+    for (let userId in urlDatabase) { // for in to see the database url from the user login
+      for (let shortUrl in urlDatabase[userId]) { // for in to show all shorturl from a user
+        if (shortUrl === req.params.shortURL) { // test if the shorturl typed is the same in the database
+          longURL = urlDatabase[userId][shortUrl]; // when find send the information longurl to the web page
         }
       }
     }
