@@ -111,10 +111,11 @@ app.get("/urls/:shortURL", function(req, res) {
       username: userDatabase[req.session.user_id]
     };
     return res.render("urls_show", templateVars);
-  } else {
+  } else { // Send the message if the user is not login
     res.status(400).send(systemMessages('You cant do it if you are not logged in.'));
   }
 });
+
 
 app.get("/u/:shortURL", (req, res) => {
   if (!req.session.user_id) {
