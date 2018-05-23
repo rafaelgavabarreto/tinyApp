@@ -124,8 +124,9 @@ app.get("/u/:shortURL", (req, res) => {
     let longURL;
     for (let userId in urlDatabase) {
       for (let shortUrl in urlDatabase[userId]) {
-        if (shortUrl === req.params.shortURL)
+        if (shortUrl === req.params.shortURL) {
           longURL = urlDatabase[userId][shortUrl];
+        }
       }
     }
     if (longURL) {
