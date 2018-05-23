@@ -156,8 +156,6 @@ app.post("/urls", (req, res) => {
         [shortURL]: longURL
       };
     }
-
-
     return res.redirect("/urls");
   } else {
     res.status(400).send(systemMessages('You cant post if you arent logged in'));
@@ -180,7 +178,6 @@ app.delete("/urls/:shortURL/delete", (req, res) => {
       }
     }
   } else {
-
     return res.status(400).send(systemMessages('You are not be able to delete if you are not logged in.'));
   }
 });
@@ -196,7 +193,6 @@ app.post("/login", (req, res) => {
       if (userDatabase[userId].email === userEmail) {
         if (bcrypt.compareSync(userPassword, userDatabase[userId].password)) {
           req.session.user_id = userId;
-
           return res.redirect("/urls");
         }
       }
