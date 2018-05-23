@@ -182,6 +182,7 @@ app.delete("/urls/:shortURL/delete", (req, res) => {
   }
 });
 
+
 app.post("/login", (req, res) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
@@ -201,6 +202,7 @@ app.post("/login", (req, res) => {
   }
 });
 
+// Get the information when the user clicked in logout button and turn the session to null and redirect the user to /urls.
 app.post("/logout", (req, res) => {
   req.session = null;
   res.redirect("/urls");
