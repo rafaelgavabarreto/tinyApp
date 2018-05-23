@@ -109,8 +109,7 @@ app.get("/urls/:shortURL", function(req, res) {
       longURL: urlDatabase[req.session.user_id][req.params.shortURL],
       username: userDatabase[req.session.user_id]
     };
-    res.render("urls_show", templateVars);
-    return;
+    return res.render("urls_show", templateVars);
   } else {
     res.status(400).send(systemMessages('You cant do it if you are not logged in.'));
   }
@@ -129,8 +128,7 @@ app.get("/u/:shortURL", (req, res) => {
       }
     }
     if (longURL) {
-      res.redirect(longURL);
-      return;
+      return res.redirect(longURL);
     } else {
       res.status(400).send(systemMessages('This Short url does not exist'));
     }
@@ -159,8 +157,8 @@ app.post("/urls", (req, res) => {
       };
     }
 
-    res.redirect("/urls");
-    return;
+
+    return res.redirect("/urls");
   } else {
     res.status(400).send(systemMessages('You cant post if you arent logged in'));
   }
@@ -173,17 +171,17 @@ app.delete("/urls/:shortURL/delete", (req, res) => {
       if (urlId === req.params.shortURL) {
         if (req.params.shortURL) {
           delete urlDatabase[req.session.user_id][req.params.shortURL];
-          res.redirect("/urls");
-          return;
+
+          return res.redirect("/urls");
         } else {
-          res.status(400).send(systemMessages('I didnt find URL to delete.'));
-          return;
+
+          return res.status(400).send(systemMessages('I didnt find URL to delete.'));
         }
       }
     }
   } else {
-    res.status(400).send(systemMessages('You are not be able to delete if you are not logged in.'));
-    return;
+
+    return res.status(400).send(systemMessages('You are not be able to delete if you are not logged in.'));
   }
 });
 
@@ -198,8 +196,8 @@ app.post("/login", (req, res) => {
       if (userDatabase[userId].email === userEmail) {
         if (bcrypt.compareSync(userPassword, userDatabase[userId].password)) {
           req.session.user_id = userId;
-          res.redirect("/urls");
-          return;
+
+          return res.redirect("/urls");
         }
       }
     }
