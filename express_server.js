@@ -162,40 +162,41 @@ app.post("/urls", (req, res) => {
   }
 });
 
+// Get information when user click in button to delete a link
 app.delete("/urls/:shortURL/delete", (req, res) => {
-  if (req.session.user_id) {
-    for (let urlId in urlDatabase[req.session.user_id]) {
-
+  if (req.session.user_id) { // test if the user is login or not
+    for (let urlId in urlDatabase[req.session.user_id]) { // for in to find the url in user URL Database
       if (urlId === req.params.shortURL) {
         if (req.params.shortURL) {
           delete urlDatabase[req.session.user_id][req.params.shortURL];
           return res.redirect("/urls");
-        } else {
+        } else { // if the system doesnt find the url, send a message to user
           return res.status(400).send(systemMessages('I didnt find URL to delete.'));
         }
       }
     }
-  } else {
+  } else { // if the user is not login send a message to the user
     return res.status(400).send(systemMessages('You are not be able to delete if you are not logged in.'));
   }
 });
 
-
+// Get information from login web page
 app.post("/login", (req, res) => {
-  const userEmail = req.body.email;
-  const userPassword = req.body.password;
-
+  const userEmail = req.body.email; // get the email typed from the user
+  const userPassword = req.body.password; // get the password typed from the user
+// test if the email or the password is blank or null and send a message to the user
   if (!userEmail || userEmail === '' && !userPassword || userPassword === '') {
     res.status(400).send(systemMessages('Fields cannot be Empty.'));
-  } else {
+  } else { // for in to find the user into the database
     for (userId in userDatabase) {
       if (userDatabase[userId].email === userEmail) {
+        // comparing the crypto password typed with the crypto password in the database
         if (bcrypt.compareSync(userPassword, userDatabase[userId].password)) {
           req.session.user_id = userId;
           return res.redirect("/urls");
         }
       }
-    }
+    } // Send a message to the user if the login or the password is not correct
     res.status(400).send(systemMessages('Login or password is not correct.'));
   }
 });
