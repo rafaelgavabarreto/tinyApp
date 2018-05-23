@@ -156,7 +156,9 @@ app.post("/urls", (req, res) => {
     if (urlDatabase[req.session.user_id]) { // testing if the user has a enter into the database
       urlDatabase[req.session.user_id][shortURL] = longURL;
     } else { // If they dont we need create a new object
-      urlDatabase[req.session.user_id] = { [shortURL]: longURL };
+      urlDatabase[req.session.user_id] = {
+        [shortURL]: longURL
+      };
     }
     return res.redirect("/urls");
   } else { // If user is not login show the message below.
@@ -186,7 +188,7 @@ app.delete("/urls/:shortURL/delete", (req, res) => {
 app.post("/login", (req, res) => {
   const userEmail = req.body.email; // get the email typed from the user
   const userPassword = req.body.password; // get the password typed from the user
-// test if the email or the password is blank or null and send a message to the user
+  // test if the email or the password is blank or null and send a message to the user
   if (!userEmail || userEmail === '' && !userPassword || userPassword === '') {
     res.status(400).send(systemMessages('Fields cannot be Empty.'));
   } else { // for in to find the user into the database
