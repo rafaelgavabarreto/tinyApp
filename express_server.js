@@ -1,3 +1,10 @@
+/************************************************************************
+  Program name: Tiny App
+  Developer: Rafael Gava Barreto
+  Date start: May 15
+  Date finished: May 23
+************************************************************************/
+
 var cookieSession = require("cookie-session");
 var express = require("express");
 let app = express();
