@@ -28,6 +28,7 @@ function systemMessages(text) {
   return userMessage;
 }
 
+// Database for user (id, name of user, encrypted password)
 const userDatabase = {
   "userRandomID": {
     id: "userRandomID",
@@ -43,9 +44,10 @@ const userDatabase = {
 
 app.set("view engine", "ejs")
 
+// Database for url. Each url is create for a single user.
 const urlDatabase = {
-  "111111": {
-    "b2xVn2": "http://www.lighthouselabs.ca",
+  "111111": { // id from user
+    "b2xVn2": "http://www.lighthouselabs.ca", // id or shorturl from a longurl
     "9sm5xK": "http://www.google.com"
   },
   "222222": {
@@ -54,6 +56,7 @@ const urlDatabase = {
   }
 };
 
+// Base web page send user to login if he isnot login or to /urls if is login
 app.get("/", (req, res) => {
   if (!req.session.user_id) {
     res.redirect("/login");
@@ -62,6 +65,7 @@ app.get("/", (req, res) => {
   }
 });
 
+// Base web page to login into the system. If the user is login send session to /urls
 app.get("/login", (req, res) => {
   if (!req.session.user_id) {
     res.render("urls_login");
@@ -70,6 +74,7 @@ app.get("/login", (req, res) => {
   }
 });
 
+// Base urls where show information about user like username, shorturl and longurl created by user
 app.get("/urls", (req, res) => {
   const templateVars = {
     username: userDatabase[req.session.user_id],
@@ -78,6 +83,7 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", templateVars);
 });
 
+// Base web page to create a new urls. The page test if the user is log in or not. if not send the user to login page
 app.get("/urls/new", (req, res) => {
   if (!req.session.user_id) {
     res.redirect("/login");
@@ -89,6 +95,7 @@ app.get("/urls/new", (req, res) => {
     res.render("urls_new", templateVars);
   }
 });
+
 
 app.put("/urls/:shortURL", (req, res) => {
   urlDatabase[req.session.user_id][req.params.shortURL] = req.body.longURL;
