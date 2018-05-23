@@ -151,12 +151,10 @@ app.post("/urls", (req, res) => {
     const shortURL = generateRandomString(); // generate a random shortURL to the new logn URL input from user
     let longURL = `http://${req.body.longURL}`; // get the long url typed from user input and add http://
 
-    if (urlDatabase[req.session.user_id]) { // testing if the url
+    if (urlDatabase[req.session.user_id]) { // testing if the user has a enter into the database
       urlDatabase[req.session.user_id][shortURL] = longURL;
-    } else {
-      urlDatabase[req.session.user_id] = {
-        [shortURL]: longURL
-      };
+    } else { // If they dont we need create a new object
+      urlDatabase[req.session.user_id] = { [shortURL]: longURL };
     }
     return res.redirect("/urls");
   } else { // If user is not login show the message below.
