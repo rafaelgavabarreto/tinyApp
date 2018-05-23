@@ -206,21 +206,22 @@ app.post("/logout", (req, res) => {
   res.redirect("/urls");
 });
 
+// Get the information from web page register new user.
 app.post("/register", (req, res) => {
 
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.email || !req.body.password) { // test with user or password is blank
     res.status(400).send(systemMessages('Blank cannot be used for user or password.'));
   } else {
 
     const newUserId = randomString(6);
     let userExist = false;
 
-    for (let userId in userDatabase) {
+    for (let userId in userDatabase) { // search using a for in to see is the user exist or not
       if (userDatabase[userId].email === req.body.email) {
         userExist = true;
       }
     }
-    if (userExist) {
+    if (userExist) { // test with user exist or not.
       res.status(400).send(systemMessages('User exist. Choose another one.'));
     } else {
       userDatabase[newUserId] = {
@@ -234,10 +235,12 @@ app.post("/register", (req, res) => {
   }
 });
 
+// This random string is used for create a shortURLs
 function generateRandomString() {
   return Math.random().toString(36).substr(2, 6);
 }
 
+// This random string is used for create a random ID for user
 function randomString(len, charSet) {
   charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let randomString = '';
@@ -248,6 +251,7 @@ function randomString(len, charSet) {
   return randomString;
 }
 
+// Start the server with the port defined
 app.listen(PORT, () => {
   console.log(`Tiny App listening on port ${PORT}!`);
 });
