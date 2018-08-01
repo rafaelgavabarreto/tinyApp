@@ -2,7 +2,7 @@
   "name": "ejs",
   "main": "server.js",
   "dependencies": {
-    "bcrypt": "^2.0.0",
+    "bcrypt": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -16,7 +16,7 @@
     "nodemon": "^1.17.4"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node express_server.js"
   },
   "description": "",
   "version": "1.0.0",
