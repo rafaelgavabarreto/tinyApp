@@ -66,7 +66,7 @@ const urlDatabase = {
 // Base web page send user to login if he isnot login or to /urls if is login
 app.get("/", (req, res) => {
   if (!req.session.user_id) {
-    res.redirect("/login");
+    res.redirect("/register");
   } else {
     res.redirect("/urls");
   }
